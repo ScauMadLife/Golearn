@@ -1,4 +1,4 @@
-//atomic原子性操作
+//atomic原子性操作1
 package main
 
 import (
