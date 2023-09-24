@@ -1,0 +1,26 @@
+//atomic原子性操作
+package main
+
+import (
+	"fmt"
+	"math"
+	"sync/atomic"
+	"time"
+)
+
+func do1(i int, ch chan struct{}) {
+	fmt.Println(i)
+	time.Sleep(time.Second)
+	<-ch
+}
+
+func main() {
+	c := make(chan struct{}, 3000)
+	for i := 0; i < math.MaxInt32; i++ {
+		atomic.AddInt32(i, 1)
+		c <- struct{}{}
+		go do1(i, c)
+	}
+	
+	time.Sleep(time.Hour)
+}
